@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mihály Orsós | Data Wizard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A192F;
+            --secondary: #112240;
+            --accent: #64FFDA;
+            --text: #CCD6F6;
+            --text-secondary: #8892B0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            filter: brightness(120%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background-color: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .small-heading {
+            color: var(--accent);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 72px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        h2 {
+            font-size: 60px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 20px;
+            margin-bottom: 50px;
+            max-width: 600px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+        
+        section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h3 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 300px;
+            background-color: var(--text-secondary);
+            opacity: 0.3;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 50px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .skills-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .skills-list li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        .experience-item {
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 4px;
+            background-color: var(--secondary);
+            transition: transform 0.3s ease;
+        }
+        
+        .experience-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .date {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            color: var(--accent);
+        }
+        
+        .company {
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        
+        .position {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .responsibilities ul {
+            list-style: none;
+        }
+        
+        .responsibilities li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .responsibilities li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .project-card {
+            background-color: var(--secondary);
+            border-radius: 4px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .folder-icon {
+            color: var(--accent);
+            font-size: 40px;
+        }
+        
+        .project-links a {
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        
+        .project-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+        }
+        
+        .project-tech li {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .contact {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact h3 {
+            color: var(--accent);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .contact h2 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .contact p {
+            margin-bottom: 50px;
+            color: var(--text-secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 22px;
+            margin-top: 40px;
+        }
+        
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 40px;
+            }
+            
+            h2 {
+                font-size: 32px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .experience-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">M.O.</div>
+                <div class="nav-links">
+                    <a href="#about">Rólam</a>
+                    <a href="#experience">Tapasztalat</a>
+                    <a href="#projects">Projektek</a>
+                    <a href="#contact">Kapcsolat</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <p class="small-heading">Üdvözlöm, a nevem</p>
+                <h1>Mihály Orsós.</h1>
+                <h2>Data Wizard vagyok.</h2>
+                <p>Nagyteljesítményű és motivált adatelemző és programozó, Python és R szakértelemmel. Specializálódtam az adatelemzésre, vizualizációra és a web scraping technikákra, céltudatosan fejlesztem a készségeimet és alkalmazok adatvezérelt megoldásokat.</p>
+                <a href="#contact" class="btn">Kapcsolatfelvétel</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h3>Rólam</h3>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Szenvedélyesen foglalkozom adatelemzéssel és programfejlesztéssel, különös tekintettel a Python és R programnyelvekre. Az OTP Banknál szerzett tapasztalatom, valamint a CEU-n oktatóként végzett munkám lehetővé tette számomra, hogy fejlesszem szakértelmemet az adatelemzés, vizualizáció és web scraping területén.</p>
+                    <p>Célom, hogy innovatív és hatékony megoldásokat találjak adatvezérelt problémákra, és folyamatosan bővítsem tudásomat a legújabb technológiák és módszerek terén.</p>
+                    <p>Íme néhány kulcskészség, amellyel dolgozom:</p>
+                    <ul class="skills-list">
+                        <li>Python</li>
+                        <li>R</li>
+                        <li>Streamlit</li>
+                        <li>Shiny</li>
+                        <li>SQL</li>
+                        <li>Data transformation</li>
+                        <li>Stock / crypto market analytics</li>
+                        <li>Git</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <!-- Placeholder for profile image if available -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <div class="section-title">
+                <h3>Tapasztalat</h3>
+            </div>
+            <div class="experience-content">
+                <div class="experience-item">
+                    <div class="date">2018 - JELENLEGI</div>
+                    <div class="details">
+                        <div class="company">Central European University</div>
+                        <div class="position">Oktató</div>
+                        <div class="responsibilities">
+                            <ul>
+                                <li>Python, adatgyűjtés, web scraping és automatizálás oktatása</li>
+                                <li>Kulcsfontosságú technológiák lefedése, mint az API-k, JSON, HTML és Git</li>
+                                <li>Gyakorlati tanulás hangsúlyozása valós adatkészletekkel és problémamegoldó megközelítésekkel Python és R nyelvekben</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="date">2021 - 2022</div>
+                    <div class="details">
+                        <div class="company">BullRanks startup</div>
+                        <div class="position">Alapító</div>
+                        <div class="responsibilities">
+                            <ul>
+                                <li>Kifejlesztettünk egy proof of concept platformot, ahol a felhasználók kereskedési tippeket oszthatnak meg</li>
+                                <li>Marketing és adaptációs kihívásokkal szembesültünk</li>
+                                <li>Értékes tapasztalatokat szereztem termékfejlesztés, üzleti stratégia és piacra viteli végrehajtás területén</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="date">2016 - 2020</div>
+                    <div class="details">
+                        <div class="company">OTP Bank</div>
+                        <div class="position">IT Fejlesztő</div>
+                        <div class="responsibilities">
+                            <ul>
+                                <li>Big data ökoszisztémák fejlesztése és tesztelése</li>
+                                <li>JIRA jegyek elemzése a fejlesztési hatékonyság és munkafolyamat javítása érdekében</li>
+                                <li>Keystroke POC projektben való részvétel az innovatív harmadik faktoros hitelesítési megoldás feltárására</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h3>Projektek</h3>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-top">
+                        <i class="fas fa-folder-open folder-icon"></i>
+                        <div class="project-links">
+                            <a href="https://felhok.hu" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="project-title">felhok.hu</h3>
+                    <p class="project-description">Repülés-kereső platform, amely naponta összegyűjti a legolcsóbb járatokat a Kiwi API segítségével, és lehetővé teszi a felhasználók számára a szűrést, rendezést és keresést különböző kritériumok alapján.</p>
+                    <ul class="project-tech">
+                        <li>Python</li>
+                        <li>API Integration</li>
+                        <li>Web Development</li>
+                    </ul>
+                </div>
+                <div class="project-card">
+                    <div class="project-top">
+                        <i class="fas fa-folder-open folder-icon"></i>
+                        <div class="project-links">
+                            <a href="https://goldhandfinance.streamlit.app" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="project-title">Goldhand Finance</h3>
+                    <p class="project-description">Streamlit-alapú alkalmazás a Goldhand Python csomaghoz, amely valós idejű részvény- és kriptoelemzést kínál dinamikusan frissülő diagramokkal és piaci trendekkel.</p>
+                    <ul class="project-tech">
+                        <li>Python</li>
+                        <li>Streamlit</li>
+                        <li>Financial Analysis</li>
+                    </ul>
+                </div>
+                <div class="project-card">
+                    <div class="project-top">
+                        <i class="fas fa-folder-open folder-icon"></i>
+                        <div class="project-links">
+                            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="project-title">BullRanks</h3>
+                    <p class="project-description">Startup projekt, ahol egy olyan platform proof of concept-jét fejlesztettük ki, ahol a felhasználók kereskedési tippeket oszthatnak meg egymással.</p>
+                    <ul class="project-tech">
+                        <li>Web Development</li>
+                        <li>Financial Markets</li>
+                        <li>User Experience</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact">
+                <h3>Mi a következő?</h3>
+                <h2>Lépjen kapcsolatba velem</h2>
+                <p>Jelenleg új lehetőségekre nyitott vagyok. Ha kérdése van, vagy csak szeretne beszélgetni, ne habozzon felvenni a kapcsolatot velem.</p>
+                <a href="mailto:ormraat.pte@gmail.com" class="btn">Üzenjen</a>
+                <div class="social-links">
+                    <a href="https://github.com/misrori" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://misrori.github.io/" target="_blank"><i class="fas fa-globe"></i></a>
+                    <a href="tel:+36706813841"><i class="fas fa-phone"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Tervezte és fejlesztette Mihály Orsós - 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add scroll class to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 10px 30px -10px rgba(2, 12, 27, 0.7)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
